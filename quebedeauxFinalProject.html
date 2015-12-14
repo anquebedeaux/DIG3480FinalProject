@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title>Twinkle</title>
+<title>Hypnotic Stars</title>
 <style>
 body {
 	  background-color: #15151e;
@@ -32,15 +32,9 @@ body {
 		canvas.onclick = function(event) {
 			handleClick(event.clientX, event.clientY);
 		};
-		
-		window.onkeydown = function(event) {
-			if (event.keyCode == '79') {
-				alert('pressed');
-				
-			}
-		};
-		
+
 		timer = setInterval(resizeCanvas, 20);
+	
     }
 	
 	function handleClick(x, y) {
@@ -90,7 +84,7 @@ body {
 
 		}
     }
-	
+
 	function fillBackgroundColor() {
 		 context.fillStyle = '#15151e';
 		 context.fillRect(0, 0, canvas.width, canvas.height);	
@@ -99,13 +93,18 @@ body {
 		 drawText3();
 		 drawText4();
 	}
+	
+	function textTwinkle() {
+		 context.fillStyle = '#15151e';
+		 context.fillRect(0, 0, canvas.width, canvas.height);
+	}
 
 	function drawText1() {
 		 context.fillStyle = "#ffffff";
 		 context.font = "19px Helvetica";
 		 context.shadowColor = "#ddccff";
 		 context.shadowBlur = 10;
-		 context.fillText("Twinkle", 20, 30);
+		 context.fillText("Hypnotic Stars", 12, 30);
 	}
 	
 	function drawText2() {
@@ -122,7 +121,7 @@ body {
 		 context.font = "14px Helvetica";
 		 context.shadowColor = "#ddccff";
 		 context.shadowBlur = 10;
-		 context.fillText("click to create or remove stars on your", 20, 65);
+		 context.fillText("click to create or remove stars on your canvas for a relaxing effect", 20, 65);
 	}
 	
 	function drawText4() {
@@ -130,13 +129,23 @@ body {
 		 context.font = "14px Helvetica";
 		 context.shadowColor = "#ddccff";
 		 context.shadowBlur = 10;
-		 context.fillText("canvas until there is a beautiful light show", 20, 80);
+		 context.fillText("press o to make your stars increase in speed for a manic effect", 20, 80);
 	}
 
+	window.addEventListener('keydown', dealWithKey, false);
+	window.addEventListener('keyup', dealWithKey, false);
+	window.addEventListener('keypress', dealWithKey, false);
+	
+	function dealWithKey(event) {
+		if (event.keyCode == '79') {
+			init();
+			}
+		}
+		
 	function degreesToRadians(degrees) {
 		return (degrees * Math.PI)/180;
 	}
-
+	
 	window.onload = init;
 </script>
 </head>
