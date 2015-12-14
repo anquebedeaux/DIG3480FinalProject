@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+<title>Twinkle</title>
+<style>
+body {
+	  background-color: #15151e;
+}
+</style>
+<script>
+	var canvas;
+	var context;
+	var circles = [];
+	var timer;
+	
+	function Circle(x, y, color) {
+		this.x = x;
+		this.y = y;
+		this.dx = Math.random()*4-2;
+		this.dy = Math.random()*4-2;
+		this.color = color;
+	}
+	
+    function init() {
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext("2d");
+
+        window.addEventListener('resize', resizeCanvas, false);
+        window.addEventListener('orientationchange', resizeCanvas, false);
+        resizeCanvas();
+		
+		canvas.onclick = function(event) {
+			handleClick(event.clientX, event.clientY);
+		};
+		
+		window.onkeydown = function(event) {
+			if (event.keyCode == '79') {
+				alert('pressed');
+				
+			}
+		};
+		
+		timer = setInterval(resizeCanvas, 20);
+    }
+	
+	function handleClick(x, y) {
+	    var found = false;
+		for (var i=0; i<circles.length; i++) {
+			d = Math.sqrt((circles[i].x - x)*(circles[i].x - x) + (circles[i].y - y)*(circles[i].y - y));
+			if (d <= 30) {
+				circles.splice(i, 1);
+				found = true;
+			}
+		}
+		 fillBackgroundColor();
+		if (!found) {
+			var colors = ["#5b5b8a", "#f0f0f5", "#ddccff", "#eee5ff", "#ffffff"];
+			var color = colors[Math.floor(Math.random()*colors.length)];
+			circles.push(new Circle(x, y, color));
+		}
+		for (var i=0; i<circles.length; i++) {
+			drawCircle(circles[i]);
+		}
+	}
+	
+	function drawCircle(circle) {
+		 var circleSize = Math.random()*8;
+		 
+		 context.beginPath();
+		 context.arc(circle.x, circle.y, circleSize, 0, degreesToRadians(360), true);
+		 context.fillStyle = circle.color;
+		 context.shadowColor = circle.color;
+		 context.shadowBlur = 20;
+		 context.fill();
+		 
+		 if (circle.x + circle.dx > canvas.width || circle.x + circle.dx < 0)
+			circle.dx = -circle.dx;
+		 if (circle.y + circle.dy > canvas.height || circle.y + circle.dy < 0)
+			circle.dy = -circle.dy;
+		 circle.x += circle.dx;
+		 circle.y += circle.dy;
+	}
+	
+    function resizeCanvas() {
+        canvas.width = window.innerWidth-20;
+        canvas.height = window.innerHeight-20;
+		fillBackgroundColor();
+		for (var i=0; i<circles.length; i++) {
+			drawCircle(circles[i]);
+
+		}
+    }
+	
+	function fillBackgroundColor() {
+		 context.fillStyle = '#15151e';
+		 context.fillRect(0, 0, canvas.width, canvas.height);	
+		 drawText1();
+		 drawText2();
+		 drawText3();
+		 drawText4();
+	}
+
+	function drawText1() {
+		 context.fillStyle = "#ffffff";
+		 context.font = "19px Helvetica";
+		 context.shadowColor = "#ddccff";
+		 context.shadowBlur = 10;
+		 context.fillText("Twinkle", 20, 30);
+	}
+	
+	function drawText2() {
+		 context.fillStyle = "#ffffff";
+		 context.font = "10px Helvetica";
+		 context.shadowColor = "#ddccff";
+		 context.shadowBlur = 10;
+		 context.fillText("by Ashley Quebedeaux", 40, 40);
+	}
+	
+	
+	function drawText3() {
+		 context.fillStyle = "#ffffff";
+		 context.font = "14px Helvetica";
+		 context.shadowColor = "#ddccff";
+		 context.shadowBlur = 10;
+		 context.fillText("click to create or remove stars on your", 20, 65);
+	}
+	
+	function drawText4() {
+		 context.fillStyle = "#ffffff";
+		 context.font = "14px Helvetica";
+		 context.shadowColor = "#ddccff";
+		 context.shadowBlur = 10;
+		 context.fillText("canvas until there is a beautiful light show", 20, 80);
+	}
+
+	function degreesToRadians(degrees) {
+		return (degrees * Math.PI)/180;
+	}
+
+	window.onload = init;
+</script>
+</head>
+<body>
+<canvas id='canvas' width=500 height=500></canvas>
+</body>	  
+</html>
